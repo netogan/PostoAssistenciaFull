@@ -1,0 +1,102 @@
+﻿@model IEnumerable<PostoAssistenciaFull.Models.Endereco>
+
+<br />
+
+
+<p>
+    @Html.ActionLink("Criar novo", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<p>
+    <input id="pesquisaIndexEndereco" class="form-control" style="min-width:350px" onkeyup="findIndexEndereco()" />
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Uf)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cidade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bairro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Logradouro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Complemento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cep)
+        </th>
+        <th></th>
+    </tr>
+    <tbody id="tbIndexEndereco">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Uf)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cidade)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bairro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Logradouro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Complemento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cep)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.EnderecoId }, htmlAttributes: new { @class = "label label-primary" })
+                    @Html.ActionLink("Details", "Details", new { id = item.EnderecoId }, htmlAttributes: new { @class = "label label-primary" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.EnderecoId }, htmlAttributes: new { @class = "label label-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+@section Scripts {
+    <script>
+        function findIndexEndereco() {
+            $("#tbIndexEndereco").empty();
+
+            $.ajax({
+                type: "GET",
+                url: "/Endereco/ObterPorLogradouro",
+                datatype: "json",
+                data: { "logradouro": $("#pesquisaIndexEndereco").val() },
+                success: function (result) {
+
+                    for (l = 0; l < JSON.parse(result).length; l++) {
+                        $('#tbIndexEndereco').append(
+                            `<tr>
+                                    <td>${JSON.parse(result)[l].Uf}</td>
+                                    <td>${JSON.parse(result)[l].Cidade}</td>
+                                    <td>${JSON.parse(result)[l].Bairro}</td>
+                                    <td>${JSON.parse(result)[l].Logradouro}</td>
+                                    //<td>${(JSON.parse(result)[l].Complemento == null ? '' : JSON.parse(result)[l].Complemento)}</td>
+                                    <td>${JSON.parse(result)[l].Cep}</td>
+                                    <td>
+                                        <a href='Endereco/Edit/${JSON.parse(result)[l].EnderecoId}' style='text-decoration:none' class='label label-primary' ; ">Editar</a>
+                                        <a href='Endereco/Details/${JSON.parse(result)[l].EnderecoId}' style='text-decoration:none' class='label label-primary' ; ">Detalhar</a>
+                                        <a href='Endereco/Delete/${JSON.parse(result)[l].EnderecoId}' style='text-decoration:none' class='label label-danger' ; ">Deletar</a>
+                                    </td>
+                                </tr>`
+                        )
+                    }
+                }
+            });
+
+        }
+    </script>
+}

@@ -17,17 +17,4 @@ namespace PostoAssistenciaFull.Models
             return userIdentity;
         }
     }
-
-    [DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-    {
-        public ApplicationDbContext() : base("Contexto", throwIfV1Schema: false)
-        {
-        }
-
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
-        }
-    }
 }

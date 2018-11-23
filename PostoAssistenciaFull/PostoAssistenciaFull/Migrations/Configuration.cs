@@ -1,6 +1,6 @@
 namespace PostoAssistenciaFull.Migrations
 {
-    using PostoDeAssistenciaWeb.Migrations;
+    using PostoAssistenciaFull.Migrations;
     using System.Data.Entity.Migrations;
 
     internal sealed class Configuration : DbMigrationsConfiguration<Models.ApplicationDbContext>

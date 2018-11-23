@@ -1,0 +1,60 @@
+﻿@model PostoAssistenciaFull.Models.Endereco
+
+<div>
+    <h4>Endereco</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Uf)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Uf)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cidade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cidade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bairro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bairro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Logradouro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Logradouro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Complemento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Complemento)
+        </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cep)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <div class="col-md-offset-2 col-md-10">
+        @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Editar", "Edit", new { id = Model.EnderecoId }, new { @class = "btn btn-primary" })
+    </div>
+</p>
+
+<br />

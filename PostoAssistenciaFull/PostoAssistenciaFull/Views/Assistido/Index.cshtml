@@ -1,0 +1,83 @@
+﻿@model IEnumerable<PostoAssistenciaFull.Models.Assistido>
+
+@*@{
+        ViewBag.Title = "Index";
+    }*@
+
+<br />
+
+<p>
+    @Html.ActionLink("Criar novo", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<p>
+    <input id="pesquisaIndexAssistido" class="form-control" style="min-width:350px" onkeyup="findIndexAssistido()" />
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Nome completo")
+        </th>
+        <th>
+            @Html.DisplayName("Sexo")
+        </th>
+        <th>
+            @Html.DisplayName("Idade")
+        </th>
+        <th></th>
+    </tr>
+    <tbody id="tbIndexAssistido">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NomeCompleto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sexo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Idade)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.AssistidoId }, htmlAttributes: new { @class = "label label-primary" })
+                    @Html.ActionLink("Detalhar", "Details", new { id = item.AssistidoId }, htmlAttributes: new { @class = "label label-primary" })
+                    @Html.ActionLink("Deletar", "Delete", new { id = item.AssistidoId }, htmlAttributes: new { @class = "label label-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@section Scripts {
+    <script>
+        function findIndexAssistido() {
+            $("#tbIndexAssistido").empty();
+
+            $.ajax({
+                type: "GET",
+                url: "/Assistido/ObterPorNome",
+                datatype: "json",
+                data: { "nome": $("#pesquisaIndexAssistido").val() },
+                success: function (result) {
+
+                    for (l = 0; l < JSON.parse(result).length; l++) {
+                        $('#tbIndexAssistido').append(
+                            `<tr>
+                                <td>${JSON.parse(result)[l].NomeCompleto}</td>
+                                <td>${JSON.parse(result)[l].Sexo}</td>
+                                <td>${JSON.parse(result)[l].Idade}</td>
+                                <td>
+                                    <a href='Assistido/Edit/${JSON.parse(result)[l].AssistidoId}' style='text-decoration:none' class='label label-primary' ; ">Editar</a>
+                                    <a href='Assistido/Details/${JSON.parse(result)[l].AssistidoId}' style='text-decoration:none' class='label label-primary' ; ">Detalhar</a>
+                                    <a href='Assistido/Delete/${JSON.parse(result)[l].AssistidoId}' style='text-decoration:none' class='label label-danger' ; ">Deletar</a>
+                                </td>
+                            </tr>`
+                        )
+                    }
+                }
+            });
+
+        }
+    </script>
+}

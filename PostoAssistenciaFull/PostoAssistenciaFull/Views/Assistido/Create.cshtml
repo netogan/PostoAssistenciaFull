@@ -1,0 +1,390 @@
+﻿@model PostoAssistenciaFull.Models.Assistido
+
+@{
+    var optionsSexo = new List<SelectListItem>();
+
+    optionsSexo.Add(new SelectListItem { Value = "Masculino", Text = "Masculino", Selected = true });
+    optionsSexo.Add(new SelectListItem { Value = "Feminino", Text = "Feminino" });
+
+    ViewData["Sexo"] = optionsSexo;
+
+    var listaAssistidos = new PostoAssistenciaFull.Controllers.AssistidoController().ObterTodos().ToList();
+
+    var listaEnderecos = new PostoAssistenciaFull.Controllers.EnderecoController().ObterTodos().ToList();
+
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="form-horizontal" style="max-width: 900px;">
+        <h4>Assistido</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.NomeCompleto, "Nome completo", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.NomeCompleto, new { htmlAttributes = new { @class = "form-control", @style = "width: 350px; max-width: 900px;" } })*@
+                @Html.EditorFor(model => model.NomeCompleto, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NomeCompleto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sexo, htmlAttributes: new { @class = "control-label col-md-2" })
+
+            @*<div class="col-md-10">
+                @Html.EditorFor(model => model.Sexo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Sexo, "", new { @class = "text-danger" })
+                </div>*@
+
+            <div class="col-md-10">
+                @Html.DropDownList("Sexo", null, htmlAttributes: new { @class = "form-control", @style = "width: 120px;", required = "Informe o sexo" })
+                @*@Html.EditorFor(model => model.Sexo, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.ValidationMessageFor(model => model.Sexo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Idade, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Idade, new { htmlAttributes = new { @class = "form-control", @style = "width: 70px;", @min = 0, @max = 150 } })
+                @Html.ValidationMessageFor(model => model.Idade, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DataNascimento, "Data nascimento", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+            </div>
+
+
+            @*@Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+
+                    @Html.TextBoxFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DataNascimento)
+
+                    @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+                </div>*@
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.GrauParentesco, "Grau parentesco", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.GrauParentesco, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.GrauParentesco, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Telefone1, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Telefone1, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Telefone1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Telefone2, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Telefone2, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Telefone2, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NumeracaoCalcado, "Nº calçado", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NumeracaoCalcado, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NumeracaoCalcado, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NumeracaoRoupaSuperior, "Nº roupa (superior)", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NumeracaoRoupaSuperior, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NumeracaoRoupaSuperior, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NumeracaoRoupaInferior, "Nº roupa (inferior)", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NumeracaoRoupaInferior, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NumeracaoRoupaInferior, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Observacao, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Observacao, 5, 40, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Observacao, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Principal, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Principal)
+                    @Html.ValidationMessageFor(model => model.Principal, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <button type="button" id="incluirVinculo" class="control-label btn btn-secondary" style="text-align:center; margin-right: 4px">Adicionar Vinculo</button>
+                <button type="button" id="removerVinculo" class="control-label btn btn-danger" style="text-align:center">Remover Vinculo</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <input id="DependenteId" class="form-control" style="display:none" />
+                @Html.Editor("Dependente", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "width:100%; min-width:440px;" } })
+                @Html.ValidationMessageFor(model => model.DependenteId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <button type="button" id="incluirEndereco" class="control-label btn btn-secondary" style="text-align:center; margin-right: 4px">Adicionar Endereço</button>
+                <button type="button" id="removerEndereco" class="control-label btn btn-danger" style="text-align:center">Remover Endereço</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <input id="EnderecoId" name="EnderecoId" class="form-control" style="display:none" />
+                @Html.Editor("DescricaoEndereco", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "width:100%; min-width:440px;" } })
+                @Html.ValidationMessage("DescricaoEndereco", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-primary" })
+                <input type="submit" value="Salvar" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+
+    //Popup
+    <div id="dialog-vinculo" title="Selecione o vínculo" style="display:none">
+        <input id="pesquisaVinculo" class="form-control" onkeyup="findVinculo()" />
+        <br />
+        <br />
+        <table id="tbVinculo" class="table">
+            <tr>
+                <th>
+                    @Html.DisplayName("Nome completo")
+                </th>
+            </tr>
+            <tbody id="tbVinculoBody">
+                @foreach (var item in listaAssistidos)
+                {
+                    <tr>
+                        <td>
+                            <a href="#" style="text-decoration:none" onclick="setValorVinculo('@item.AssistidoId', '@item.NomeCompleto');">@item.NomeCompleto</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div id="dialog-endereco" title="Selecione o endereço" style="display:none">
+        <input id="pesquisaEndereco" class="form-control" onkeyup="findEndereco()" />
+        <br />
+        <br />
+        <table id="tbEndereco" class="table">
+            <tr>
+                <th>
+                    @Html.DisplayName("Cidade")
+                </th>
+                <th>
+                    @Html.DisplayName("Bairro")
+                </th>
+                <th>
+                    @Html.DisplayName("Logradouro")
+                </th>
+            </tr>
+            <tbody id="tbEnderecoBody">
+                @foreach (var item in listaEnderecos)
+                {
+                    <tr>
+                        <td>
+                            <a href="#" style="text-decoration:none" onclick="setValorEndereco('@item.EnderecoId', '@($"{item.Cidade} | {item.Bairro} | {item.Logradouro}")');">@item.Cidade</a>
+                        </td>
+                        <td>
+                            <a href="#" style="text-decoration:none" onclick="setValorEndereco('@item.EnderecoId', '@($"{item.Cidade} | {item.Bairro} | {item.Logradouro}")');">@item.Bairro</a>
+                        </td>
+                        <td>
+                            <a href="#" style="text-decoration:none" onclick="setValorEndereco('@item.EnderecoId', '@($"{item.Cidade} | {item.Bairro} | {item.Logradouro}")');">@item.Logradouro</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+
+
+@*<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+
+@section Scripts {
+
+    <script type="text/javascript" language="javascript">
+        $(function () {
+            $('input[type=datetime]').datepicker({
+                dateFormat: 'dd/mm/yy',
+                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                nextText: 'Proximo',
+                prevText: 'Anterior',
+                showOn: "button"
+            }).css("display", "inline-block")
+                .next("button").button({
+                    icons: { primary: "ui-icon-calendar" },
+                    label: "Selecione uma data",
+                    text: false
+                });
+        });
+
+    </script>
+
+    <script>
+        $(function () {
+            $("#dialog-vinculo").dialog({
+                autoOpen: false,
+                width: 600,
+                height: 400,
+                modal: true
+            });
+
+            $("#incluirVinculo").click(function () {
+                $("#dialog-vinculo").dialog("open");
+            });
+
+            $("#removerVinculo").click(function () {
+                $("#Dependente").empty();
+                $("#DependenteId").empty();
+            });
+
+        });
+    </script>
+
+    <script>
+        $(function () {
+            $("#dialog-endereco").dialog({
+                autoOpen: false,
+                width: 800,
+                height: 400,
+                modal: true
+            });
+
+            $("#incluirEndereco").click(function () {
+                $("#dialog-endereco").dialog("open");
+            });
+
+            $("#removerEndereco").click(function () {
+                $("#DescricaoEndereco").val(null);
+                $("#EnderecoId").val(null);
+            });
+
+        });
+    </script>
+
+
+    <script>
+        function setValorVinculo(idVinculo, nomeVinculo) {
+            $("#Dependente").val(nomeVinculo);
+            $("#DependenteId").val(idVinculo);
+            $("#dialog-vinculo").dialog("close");
+        }
+    </script>
+
+    <script>
+        function setValorEndereco(idEndereco, descricaoEndereco) {
+            $("#DescricaoEndereco").val(descricaoEndereco);
+            $("#EnderecoId").val(idEndereco);
+            $("#dialog-endereco").dialog("close");
+        }
+    </script>
+
+    <script>
+        function findVinculo() {
+            $("#tbVinculoBody").empty();
+
+            $.ajax({
+                type: "GET",
+                url: "/Assistido/ObterPorNome",
+                datatype: "json",
+                data: { "nome": $("[id$=pesquisaVinculo]").val() },
+                success: function (result) {
+
+                    for (l = 0; l < JSON.parse(result).length; l++) {
+                        $('#tbVinculoBody').append(
+                            `<tr>
+                                <td>
+                                    <a href='#' style='text-decoration:none' onclick="setValorVinculo('${JSON.parse(result)[l].AssistidoId}', '${JSON.parse(result)[l].NomeCompleto}' ); "> ${JSON.parse(result)[l].NomeCompleto} </a>
+                                </td>
+                            </tr>`
+                        )
+                    }
+                }
+            });
+
+        }
+    </script>
+
+    <script>
+        function findEndereco() {
+            $("#tbEnderecoBody").empty();
+
+            $.ajax({
+                type: "GET",
+                url: "/Endereco/ObterPorLogradouro",
+                datatype: "json",
+                data: { "logradouro": $("[id$=pesquisaEndereco]").val() },
+                success: function (result) {
+
+                    for (l = 0; l < JSON.parse(result).length; l++) {
+                        $('#tbEnderecoBody').append(
+                            `<tr>
+                                <td>
+                                    <a href="#" style="text-decoration:none" onclick="setValorEndereco('${JSON.parse(result)[l].EnderecoId}', '${JSON.parse(result)[l].Cidade} | ${JSON.parse(result)[l].Bairro} | ${JSON.parse(result)[l].Logradouro}');">${JSON.parse(result)[l].Cidade}</a>
+                                </td>
+                                <td>
+                                    <a href="#" style="text-decoration:none" onclick="setValorEndereco('${JSON.parse(result)[l].EnderecoId}', '${JSON.parse(result)[l].Cidade} | ${JSON.parse(result)[l].Bairro} | ${JSON.parse(result)[l].Logradouro}');">${JSON.parse(result)[l].Bairro}</a>
+                                </td>
+                                <td>
+                                    <a href="#" style="text-decoration:none" onclick="setValorEndereco('${JSON.parse(result)[l].EnderecoId}', '${JSON.parse(result)[l].Cidade} | ${JSON.parse(result)[l].Bairro} | ${JSON.parse(result)[l].Logradouro}');">${JSON.parse(result)[l].Logradouro}</a>
+                                </td>
+                            </tr>`
+                        )
+                    }
+                }
+            });
+
+        }
+    </script>
+
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+
+}

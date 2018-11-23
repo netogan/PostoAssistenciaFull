@@ -1,0 +1,122 @@
+﻿@model PostoAssistenciaFull.Models.Assistido
+
+<div>
+    <h4>Assistido</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NomeCompleto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NomeCompleto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sexo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sexo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Idade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Idade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataNascimento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataNascimento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GrauParentesco)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GrauParentesco)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Telefone1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Telefone1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Telefone2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Telefone2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumeracaoCalcado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumeracaoCalcado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumeracaoRoupaSuperior)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumeracaoRoupaSuperior)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumeracaoRoupaInferior)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumeracaoRoupaInferior)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Observacao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Observacao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Principal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Principal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DependenteId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DependenteId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Editar", "Edit", new { id = Model.AssistidoId }, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+</p>
+
+<br />

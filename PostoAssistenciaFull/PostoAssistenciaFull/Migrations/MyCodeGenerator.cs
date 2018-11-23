@@ -2,7 +2,7 @@
 using System.Data.Entity.Migrations.Model;
 using System.Data.Entity.Migrations.Utilities;
 
-namespace PostoDeAssistenciaWeb.Migrations
+namespace PostoAssistenciaFull.Migrations
 {
     internal class MyCodeGenerator : CSharpMigrationCodeGenerator
     {
