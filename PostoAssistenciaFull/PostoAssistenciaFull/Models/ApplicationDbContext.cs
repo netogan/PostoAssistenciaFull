@@ -5,7 +5,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace PostoAssistenciaFull.Models
 {
-    [DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
+    //[DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext() : base("Contexto", throwIfV1Schema: false)
@@ -30,9 +30,13 @@ namespace PostoAssistenciaFull.Models
 
         public DbSet<Endereco> Enderecos { get; set; }
 
+        public DbSet<Chamada> Chamadas { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
+
+        object placeHolderVariable;
     }
 }
