@@ -228,7 +228,11 @@
     <Compile Include="Models\ChamadaTrabalhador.cs" />
     <Compile Include="Models\Endereco.cs" />
     <Compile Include="Models\EntityConfig\AssistidoConfig.cs" />
+    <Compile Include="Models\EntityConfig\ChamadaAssistidoConfig.cs" />
+    <Compile Include="Models\EntityConfig\ChamadaConfig.cs" />
+    <Compile Include="Models\EntityConfig\ChamadaTrabalhadorConfig.cs" />
     <Compile Include="Models\EntityConfig\EnderecoConfig.cs" />
+    <Compile Include="Models\EntityConfig\TrabalhadorConfig.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Trabalhador.cs" />

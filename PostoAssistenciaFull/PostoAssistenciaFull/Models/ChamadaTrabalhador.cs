@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PostoAssistenciaFull.Models
 {
@@ -11,5 +12,11 @@ namespace PostoAssistenciaFull.Models
         public Guid TrabalhadorId { get; set; }
 
         public string Observação { get; set; }
+
+        [ForeignKey("ChamadaId")]
+        public virtual Chamada Chamada { get; set; }
+
+        [ForeignKey("TrabalhadorId")]
+        public virtual Trabalhador Trabalhador { get; set; }
     }
 }
