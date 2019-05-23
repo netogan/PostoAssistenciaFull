@@ -10,6 +10,7 @@ using PostoAssistenciaFull.Models;
 
 namespace PostoAssistenciaFull.Controllers
 {
+    [Authorize]
     public class ChamadaController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -51,6 +52,7 @@ namespace PostoAssistenciaFull.Controllers
             if (ModelState.IsValid)
             {
                 chamada.ChamadaId = Guid.NewGuid();
+                chamada.DataCriacao = DateTime.Now;
                 db.Chamadas.Add(chamada);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -112,6 +114,21 @@ namespace PostoAssistenciaFull.Controllers
         {
             Chamada chamada = db.Chamadas.Find(id);
             db.Chamadas.Remove(chamada);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost, ActionName("AssociarTrabalhador")]
+        [ValidateAntiForgeryToken]
+        public ActionResult AssociarTrabalhador(Guid chamadaId)
+        {
+            var chamadaTrabalhador = new ChamadaTrabalhador()
+            {
+                ChamadaTrabalhadorId = Guid.NewGuid()
+
+            };
+
+            db.ChamadaTrabalhadores.Add(chamadaTrabalhador);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

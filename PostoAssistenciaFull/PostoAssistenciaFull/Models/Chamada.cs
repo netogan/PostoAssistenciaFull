@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace PostoAssistenciaFull.Models
 {
@@ -6,6 +7,8 @@ namespace PostoAssistenciaFull.Models
     {
         public Guid ChamadaId { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DataChamada { get; set; }
 
         public DateTime DataCriacao { get; set; }

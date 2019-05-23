@@ -207,9 +207,11 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AssistidoController.cs" />
     <Compile Include="Controllers\ChamadaController.cs" />
+    <Compile Include="Controllers\ChamadaTrabalhadorController.cs" />
     <Compile Include="Controllers\EnderecoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\TrabalhadorController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -239,6 +241,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\CaracterEspecial.cs" />
+    <Compile Include="ViewModel\ChamadaTrabalhador\ViewModelChamadaTrabalhador.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -396,6 +399,16 @@
     <Content Include="Views\Chamada\Details.cshtml" />
     <Content Include="Views\Chamada\Edit.cshtml" />
     <Content Include="Views\Chamada\Index.cshtml" />
+    <Content Include="Views\Trabalhador\Create.cshtml" />
+    <Content Include="Views\Trabalhador\Delete.cshtml" />
+    <Content Include="Views\Trabalhador\Details.cshtml" />
+    <Content Include="Views\Trabalhador\Edit.cshtml" />
+    <Content Include="Views\Trabalhador\Index.cshtml" />
+    <Content Include="Views\ChamadaTrabalhador\Create.cshtml" />
+    <Content Include="Views\ChamadaTrabalhador\Delete.cshtml" />
+    <Content Include="Views\ChamadaTrabalhador\Details.cshtml" />
+    <Content Include="Views\ChamadaTrabalhador\Edit.cshtml" />
+    <Content Include="Views\ChamadaTrabalhador\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

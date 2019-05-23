@@ -1,31 +1,45 @@
 ﻿@model IEnumerable<PostoAssistenciaFull.Models.Chamada>
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
-<!DOCTYPE html>
+<style type="text/css">
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DataChamada)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataCriacao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Observação)
-            </th>
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
+    .swal-wide{
+        width : 512px;
+    }
+
+    #swal2-content{
+        text-align : left !important;
+    }
+
+    .trabalhadorTodos{
+        height: 100px;
+        overflow-y: scroll;   
+    }
+
+</style>
+
+<br />
+
+<p>
+    @Html.ActionLink("Criar novo", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DataChamada)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataCriacao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observação)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.DataChamada)
@@ -37,13 +51,88 @@
                 @Html.DisplayFor(modelItem => item.Observação)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.ChamadaId }) |
-                @Html.ActionLink("Details", "Details", new { id=item.ChamadaId }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.ChamadaId })
+                @Html.ActionLink("Edit", "Edit", new { id = item.ChamadaId }, htmlAttributes: new { @class = "label label-primary" })
+                @Html.ActionLink("Details", "Details", new { id = item.ChamadaId }, htmlAttributes: new { @class = "label label-primary" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.ChamadaId }, htmlAttributes: new { @class = "label label-danger" })
+                <a class='btn fas fa-user-check' style='font-size:15px; color: #819FF7; text-decoration: none' title="Associar Trabalhadores" href="#" onclick="AssociarTrabalhadores('@item.DataChamada.Date.ToString("dd/MM/yyyy")', '@item.ChamadaId')" />
+                <a class='btn fas fa-user-friends' style='font-size:15px; color: #819FF7; text-decoration: none' title="Associar Assistidos" href="#" />
+                @*@Html.ActionLink("Trabalhador", "Delete", new { id = item.ChamadaId }, htmlAttributes: new { @class = "fas fa-user-friends" })*@
+                @*@Html.ActionLink("Associar Assistido", "Delete", new { id = item.ChamadaId }, htmlAttributes: new { @class = "label label-danger" })*@
             </td>
         </tr>
     }
-    
-    </table>
-</body>
-</html>
+
+</table>
+
+
+<script type="text/javascript">
+    var AssociarTrabalhadores = function (data, chamadaId) {
+
+        var formValues;
+
+        $.ajax({
+            url: "/Trabalhador/ObterTodosJSON",
+            method: "GET",
+            success(response) {
+                if (response != undefined && response.length > 0) {
+                    var trabalhadores = JSON.parse(response);
+
+                    var inputPlace = `  <p>
+                                            <input type='text' id='filtrarTrabalhador' />
+                                            <a class='btn fas fa-search' style='font-size:15px; color: #819FF7; text-decoration: none' href='#' onclick='ProcurarTrabalhador()'></a>
+                                        </p>
+                                        <div class='trabalhadorTodos'>
+                                     `;
+
+                    $.each(trabalhadores, function (index, trabalhador) {
+                        inputPlace += ` <div class='trabalhadorItem'>
+                                            <input type='checkbox' id='` + trabalhador.TrabalhadorId + `' class='swal2-checkbox swal2-alinhar-esq' value='` + trabalhador.TrabalhadorId + `'>
+                                            <span class='swal2-label text-capitalize h5'>` + trabalhador.NomeCompleto + `</span>
+                                        </div>`
+                    });
+
+                    inputPlace += '</div>'
+
+                    formValues = Swal.fire({
+                        title: 'Selecione os Trabalhadores para o dia ' + data,
+                        html: inputPlace,
+                        focusConfirm: false,
+                        customClass: 'swal-wide'
+                    }).then((result) => {
+                        if (result.value) {
+
+                            var chamadaTrabalhadores = {
+                                Trabalhadores : []
+                            };
+                            
+                            $(".trabalhadorTodos input:checkbox:checked").each(function (index, element) {
+                                chamadaTrabalhadores.Trabalhadores.push(element.id);
+                            });
+
+                            chamadaTrabalhadores.ChamadaId = chamadaId
+
+                            var json = JSON.stringify(chamadaTrabalhadores);
+
+                            $.ajax({
+                                contentType: "application/json",
+                                url: "/ChamadaTrabalhador/CriarChamadaParaTrabalhadores",
+                                method: "POST",
+                                data: json,
+                                dataType: "json",
+                                success(response) {
+                                    console.log(response);
+                                }
+                            });
+                        }
+                    })
+                }
+            }
+        });
+    };
+       
+    var ProcurarTrabalhador = function () {
+        $("#swal2-content .trabalhadorItem span").css({ 'color': 'black', 'font-weight': 'normal' });
+        $("#swal2-content .trabalhadorItem span:contains('" + $('#filtrarTrabalhador').val() + "')").css({ 'color': 'green', 'font-weight': 'bold' });
+    };
+
+</script>

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<PostoAssistenciaFull.Models.Trabalhador>
+
+<br />
+
+<p>
+    @Html.ActionLink("Criar novo", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NomeCompleto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sexo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Idade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataNascimento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefone1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefone2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataAtualizacao)
+        </th>
+        <th></th>
+    </tr>
+    
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NomeCompleto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sexo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Idade)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataNascimento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Telefone1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Telefone2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataAtualizacao)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TrabalhadorId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TrabalhadorId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TrabalhadorId })
+        </td>
+    </tr>
+}
+    
+</table>
