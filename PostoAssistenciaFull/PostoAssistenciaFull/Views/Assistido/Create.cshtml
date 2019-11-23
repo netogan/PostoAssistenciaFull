@@ -14,14 +14,25 @@
 
 }
 
+<style type="text/css">
+    #head {
+        width: 760px;
+        height: 200px;
+        overflow: hidden;
+        background: #fff url('topo.gif') top no-repeat;
+        padding-top: 27px;
+        padding-left: 24px;
+    }
+</style>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-
     <div class="form-horizontal" style="max-width: 900px;">
         <h4>Assistido</h4>
         <hr />
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.NomeCompleto, "Nome completo", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -306,7 +317,6 @@
                 $("#DescricaoEndereco").val(null);
                 $("#EnderecoId").val(null);
             });
-
         });
     </script>
 

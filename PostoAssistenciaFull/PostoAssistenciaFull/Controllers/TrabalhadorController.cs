@@ -125,15 +125,19 @@ namespace PostoAssistenciaFull.Controllers
         }
 
         [HttpGet]
-        public JsonResult ObterTodosJSON()
+        public JsonResult ObterTodosSemVinculoComChamadaJSON(Guid chamadaId)
         {
-            var listaTrabalhadores = db.Trabalhadores.ToList();
+            var todosTrabalhadores = db.Trabalhadores.ToList();
+
+            var trabalhadoresVinculados = db.ChamadaTrabalhadores.ToList().Where(c => c.ChamadaId == chamadaId);
+
+            var trabalhadoresSemVinculo = todosTrabalhadores.Where(tudo => !trabalhadoresVinculados.Any(vinc => vinc.TrabalhadorId == tudo.TrabalhadorId));
 
             var serializer = new JavaScriptSerializer();
 
-            if (listaTrabalhadores == null) return null;
+            if (trabalhadoresSemVinculo == null) return null;
 
-            return Json(serializer.Serialize(listaTrabalhadores), JsonRequestBehavior.AllowGet);
+            return Json(serializer.Serialize(trabalhadoresSemVinculo), JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

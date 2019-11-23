@@ -30,9 +30,6 @@
             @Html.DisplayNameFor(model => model.DataChamada)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DataCriacao)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Observação)
         </th>
         <th></th>
@@ -44,10 +41,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DataChamada)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataCriacao)
-            </td>
-            <td>
+            <td style="width: 50%">
                 @Html.DisplayFor(modelItem => item.Observação)
             </td>
             <td>
@@ -71,8 +65,9 @@
         var formValues;
 
         $.ajax({
-            url: "/Trabalhador/ObterTodosJSON",
+            url: "/Trabalhador/ObterTodosSemVinculoComChamadaJSON",
             method: "GET",
+            data: { chamadaId: chamadaId },
             success(response) {
                 if (response != undefined && response.length > 0) {
                     var trabalhadores = JSON.parse(response);

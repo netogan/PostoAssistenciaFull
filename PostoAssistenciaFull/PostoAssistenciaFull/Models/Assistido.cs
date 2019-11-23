@@ -45,6 +45,8 @@ namespace PostoAssistenciaFull.Models
 
         public string Rg { get; set; }
 
+        public string FotoBase64 { get; set; }
+
         public virtual Guid? EnderecoId { get; set; }
 
         [ForeignKey("EnderecoId")]

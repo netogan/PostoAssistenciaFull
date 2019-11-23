@@ -21,6 +21,8 @@ namespace PostoAssistenciaFull.Models.EntityConfig
 
             Property(a => a.EnderecoId).IsOptional();
 
+            Ignore(a => a.FotoBase64);
+
             ToTable("Assistidos");
         }
     }

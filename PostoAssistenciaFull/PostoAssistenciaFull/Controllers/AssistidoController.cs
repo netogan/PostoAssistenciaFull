@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -67,15 +69,29 @@ namespace PostoAssistenciaFull.Controllers
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Assistido assistido = db.Assistidos.Find(id);
+
+            var assistido = db.Assistidos.Find(id);
 
             if (assistido == null)
-            {
                 return HttpNotFound();
+
+            var urlFoto = $"{HttpRuntime.AppDomainAppPath}\\fotos\\{assistido.AssistidoId}.jpg";
+
+            if (System.IO.File.Exists(urlFoto))
+            {
+                using (var image = Image.FromFile(urlFoto))
+                {
+                    using (MemoryStream m = new MemoryStream())
+                    {
+                        image.Save(m, image.RawFormat);
+                        byte[] imageBytes = m.ToArray();
+
+                        assistido.FotoBase64 = Convert.ToBase64String(imageBytes);
+                    }
+                }
             }
+
             return View(assistido);
         }
 
@@ -166,6 +182,38 @@ namespace PostoAssistenciaFull.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        [HttpPost]
+        [Route("IncluirFoto")]
+        public string IncluirFoto(Guid assistidoId)
+        {
+            string base64String = string.Empty;
+
+            if (HttpContext.Request.Files.AllKeys.Any())
+            {
+                var foto = HttpContext.Request.Files["foto"];
+
+                var diretorioFoto = $"{HttpRuntime.AppDomainAppPath}\\fotos\\{assistidoId}.jpg";
+
+                ImageResizer.ImageJob i = new ImageResizer.ImageJob(foto, diretorioFoto, new ImageResizer.ResizeSettings("width=300;height=300;format=jpg;mode=max"));
+
+                i.CreateParentDirectory = true; 
+                i.Build();
+
+                using (var image = Image.FromFile(diretorioFoto))
+                {
+                    using (MemoryStream m = new MemoryStream())
+                    {
+                        image.Save(m, image.RawFormat);
+                        byte[] imageBytes = m.ToArray();
+
+                        base64String = Convert.ToBase64String(imageBytes);
+                    }
+                }
+            }
+
+            return base64String;
         }
     }
 }

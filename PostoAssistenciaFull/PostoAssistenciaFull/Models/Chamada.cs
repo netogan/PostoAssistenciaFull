@@ -8,7 +8,7 @@ namespace PostoAssistenciaFull.Models
         public Guid ChamadaId { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DataChamada { get; set; }
 
         public DateTime DataCriacao { get; set; }

@@ -13,6 +13,15 @@
     var listaEnderecos = new PostoAssistenciaFull.Controllers.EnderecoController().ObterTodos().ToList();
 }
 
+<style type="text/css">
+    #fotoAssistido {
+        position: absolute;
+        left: 50%;
+        width: 300px;
+        height: 400px;
+        z-index: 9999;
+    }
+</style>
 
 @using (Html.BeginForm())
 {
@@ -24,6 +33,20 @@
     <div class="form-horizontal" style="max-width: 900px;">
         <h4>Assistido</h4>
         <hr />
+
+        <div id="fotoAssistido">
+            <input id="shadowFileUpload" type="file" style="display:none">
+            <label for="shadowFileUpload" class="control-label btn btn btn-success">
+                <span>Add Foto...</span>
+            </label>
+            <button id="enviarFoto" type="button" class="control-label btn btn-primary start">
+                <span>Enviar</span>
+            </button>
+            <br /> <br />
+            <div id="viewFoto">
+            </div>
+        </div>
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.NomeCompleto, "Nome completo", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -267,6 +290,15 @@
     </script>
 
     <script>
+        $(window).load(function () {
+
+            var existeFoto = Boolean('@Model.FotoBase64' != null && '@Model.FotoBase64' != '');
+
+            if(existeFoto) {
+                $("#viewFoto").append("<img id='imgFoto' src='data:image/jpg;base64,@(Model.FotoBase64?.ToString())' />");
+            }
+        });
+
         $(function () {
             $("#dialog-modalVinculo").dialog({
                 autoOpen: false,
@@ -366,8 +398,9 @@
 
     <script>
         $("#EnderecoId").on("change", OnChangeEndereco())
+        $("#enviarFoto").click(function () { enviarFoto() });
     </script>
-    
+
     <script>
         function findEndereco() {
             $("#tbEnderecoBody").empty();
@@ -419,5 +452,36 @@
 
     <script>
         $("#DependenteId").on("change", OnChangeEvent())
+    </script>
+
+    <script>
+        function enviarFoto() {
+
+            if ($('#shadowFileUpload')[0].files.length == 0)
+                return;
+
+            var data;
+
+            data = new FormData();
+            data.append('foto', $('#shadowFileUpload')[0].files[0]);
+
+            data.append('assistidoId', '@Model.AssistidoId');
+
+            $.ajax({
+                url: '../IncluirFoto',
+                data: data,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function (foto) {
+                    $("#viewFoto img").remove();
+                    $("#viewFoto").append("<img id='imgFoto' src='data:image/jpg;base64," + foto + "' />");
+                    $('#shadowFileUpload')[0].files[0] = null;
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
+        };
     </script>
 }
