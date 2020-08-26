@@ -1,8 +1,24 @@
 ﻿@model PostoAssistenciaFull.Models.Assistido
 
+<style type="text/css">
+    #fotoAssistido {
+        position: absolute;
+        left: 50%;
+        width: 300px;
+        height: 400px;
+        z-index: 9999;
+    }
+</style>
+
 <div>
     <h4>Assistido</h4>
     <hr />
+
+    <div id="fotoAssistido">
+        <div id="viewFoto">
+        </div>
+    </div>
+
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.NomeCompleto)
@@ -120,3 +136,16 @@
 </p>
 
 <br />
+
+@section Scripts{
+    <script>
+        $(window).load(function () {
+
+            var existeFoto = Boolean('@Model.FotoBase64' != null && '@Model.FotoBase64' != '');
+
+            if(existeFoto) {
+                $("#viewFoto").append("<img id='imgFoto' src='data:image/jpg;base64,@(Model.FotoBase64?.ToString())' />");
+            }
+        });
+    </script>
+}

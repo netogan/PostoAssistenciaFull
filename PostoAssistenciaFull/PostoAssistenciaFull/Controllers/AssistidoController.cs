@@ -22,21 +22,36 @@ namespace PostoAssistenciaFull.Controllers
         // GET: Assistido
         public ActionResult Index()
         {
-            return View(db.Assistidos.ToList());
+            return View(db.Assistidos.ToList().OrderBy(x => x.NomeCompleto));
         }
 
         // GET: Assistido/Details/5
         public ActionResult Details(Guid? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Assistido assistido = db.Assistidos.Find(id);
+
+            var assistido = db.Assistidos.Find(id);
+
             if (assistido == null)
-            {
                 return HttpNotFound();
+
+            var urlFoto = $"{HttpRuntime.AppDomainAppPath}\\fotos\\{assistido.AssistidoId}.jpg";
+
+            if (System.IO.File.Exists(urlFoto))
+            {
+                using (var image = Image.FromFile(urlFoto))
+                {
+                    using (MemoryStream m = new MemoryStream())
+                    {
+                        image.Save(m, image.RawFormat);
+                        byte[] imageBytes = m.ToArray();
+
+                        assistido.FotoBase64 = Convert.ToBase64String(imageBytes);
+                    }
+                }
             }
+
             return View(assistido);
         }
 
